@@ -16,32 +16,42 @@ app.get('/compare', (req, res) => {
   let currentPrice;
   let yesterdayPrice;
   fetch(currentPriceUrl)
-    .then(currentPriceResponse => currentPriceResponse.json())
-    .then(currentPriceResponse => {
-      currentPrice = currentPriceResponse.bpi.USD.rate_float;
-      fetch(yesterdayPriceUrl)
-        .then(yesterdayPriceResponse => yesterdayPriceResponse.json())
-        .then(yesterdayPriceResponse => {
-          yesterdayPrice = yesterdayPriceResponse.bpi[yesterdayDate]
-          res.status(STATUS_SUCCESS);
-          res.json({ CurrentPrice: currentPrice, 
-            YesterdayPrice: yesterdayPrice, 
-            PriceDifference: currentPrice - yesterdayPrice,
-          })
-        })
-        .catch(err => {
-          console.log(err);
-          res.status(STATUS_ERROR);
-          res.send({ err: err });
-        })
+  .then(currentPriceResponse => currentPriceResponse.json())
+  .then(currentPriceResponse => {
+    currentPrice = currentPriceResponse.bpi.USD.rate_float
+    fetch(yesterdayPriceUrl)
+    .then(yesterdayPriceResponse => yesterdayPriceResponse.json())
+    .then(yesterdayPriceResponse => {
+      yesterdayPrice = yesterdayPriceResponse.bpi[yesterdayDate]
+      res.status(STATUS_SUCCESS);
+      res.json({ CurrentPrice: currentPrice, 
+        YesterdayPrice: yesterdayPrice, 
+        PriceDifference: priceDiff(currentPrice, yesterdayPrice),
+      })
     })
     .catch(err => {
       console.log(err);
       res.status(STATUS_ERROR);
       res.send({ err: err });
     })
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(STATUS_ERROR);
+    res.send({ err: err });
+  })
 })
 
+function priceDiff (currentPrice, yesterdayPrice) {
+  if(currentPrice === yesterdayPrice) {
+    return 'The price of bitcoin has stayed the same!'
+  }
+  if (currentPrice > yesterdayPrice) {
+    return `The price of Bitcoin is up $${currentPrice-yesterdayPrice} from yesterday! :)`
+  } else {
+    return `The price of Bitcoin is down $${currentPrice-yesterdayPrice} from yesterday! :(`
+  }
+}
 
 app.listen(PORT, err => {
   if (err) {
