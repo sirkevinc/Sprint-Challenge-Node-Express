@@ -7,8 +7,8 @@ const STATUS_ERROR = 422;
 const { getCurrentPrice, getYesterdayPrice, getDifference } = require('../models/index');
 
 router.get('/compare', (req, res) => {
-  let currentPrice = getCurrentPrice();
-  let yesterdayPrice = getYesterdayPrice();
+  let currentPrice = 2000;
+  let yesterdayPrice = 4000;
   getDifference(currentPrice, yesterdayPrice)
     .then(difference => {
       res.status(STATUS_SUCCESS)

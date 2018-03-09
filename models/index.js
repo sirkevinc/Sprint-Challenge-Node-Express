@@ -11,7 +11,6 @@ function getCurrentPrice() {
       .then(currentPriceRes => currentPriceRes.json())
       .then(currentPriceRes => currentPriceRes.bpi.USD.rate_float)
       .then(currentPrice => {
-        console.log('getcurrentpri', currentPrice)
         resolve(currentPrice);
       })
       .catch(err => {
@@ -26,7 +25,6 @@ function getYesterdayPrice() {
       .then(yesterdayPriceRes => yesterdayPriceRes.json())
       .then(yesterdayPriceRes => yesterdayPriceRes.bpi[yesterdayDate])
       .then(yesterdayPrice => {
-        console.log('getYesterday', yesterdayPrice);
         resolve(yesterdayPrice);
       })
       .catch(err => {
@@ -36,7 +34,8 @@ function getYesterdayPrice() {
 }
 
 function getDifference(currentPrice, yesterdayPrice) {
-  return currentPrice - yesterdayPrice;
+  return new Promise((resolve, reject) => {
+    currentPrice - yesterdayPrice;
 }
 
 module.exports = {
