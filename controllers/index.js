@@ -4,7 +4,7 @@ const router = express.Router();
 const STATUS_SUCCESS = 200;
 const STATUS_ERROR = 422;
 
-const { getCurrentPrice, getYesterdayPrice } = require('../models/index');
+const { getCurrentPrice, getYesterdayPrice, priceDiff } = require('../models');
 
 router.get('/compare', (req, res) => {
   getCurrentPrice()
@@ -14,7 +14,7 @@ router.get('/compare', (req, res) => {
           res.send({
             CurrentPrice: currentPrice,
             YesterdayPrice: yesterdayPrice,
-            Difference: currentPrice - yesterdayPrice,
+            Difference: priceDiff(currentPrice, yesterdayPrice),
           })
         })
     })

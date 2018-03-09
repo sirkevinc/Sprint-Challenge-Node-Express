@@ -33,7 +33,19 @@ function getYesterdayPrice() {
   });
 }
 
+function priceDiff (currentPrice, yesterdayPrice) {
+  if(currentPrice === yesterdayPrice) {
+    return 'The price of bitcoin has stayed the same!'
+  }
+  if (currentPrice > yesterdayPrice) {
+    return `The price of Bitcoin is up $${currentPrice-yesterdayPrice} from yesterday! :)`
+  } else {
+    return `The price of Bitcoin is down $${currentPrice-yesterdayPrice} from yesterday! :(`
+  }
+}
+
 module.exports = {
   getCurrentPrice,
   getYesterdayPrice,
+  priceDiff
 }
