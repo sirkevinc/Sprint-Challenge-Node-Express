@@ -33,13 +33,7 @@ function getYesterdayPrice() {
   });
 }
 
-function getDifference(currentPrice, yesterdayPrice) {
-  return new Promise((resolve, reject) => {
-    currentPrice - yesterdayPrice;
-}
-
 module.exports = {
   getCurrentPrice,
   getYesterdayPrice,
-  getDifference
 }
