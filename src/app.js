@@ -10,6 +10,22 @@ const yesterdayPriceUrl = 'https://api.coindesk.com/v1/bpi/historical/close.json
 const yesterdayDate = moment().add(-1, 'd').format("YYYY-MM-DD");
 
 app.get('/compare', (req, res) => {
+  let currentPrice;
+  let yesterdayPrice;
+  fetch(currentPriceUrl)
+    .then(currentPriceResponse => currentPriceResponse.json())
+    .then(currentPriceResponse => {
+      currentPrice = currentPriceResponse.bpi.USD.rate_float;
+      fetch(yesterdayPriceUrl)
+        .then(yesterdayPriceResponse => yesterdayPriceResponse.json())
+        .then(yesterdayPriceResponse => {
+          yesterdayPrice = yesterdayPriceResponse.bpi[yesterdayDate]
+          res.json({ CurrentPrice: currentPrice, 
+            YesterdayPrice: yesterdayPrice, 
+            PriceDifference: currentPrice - yesterdayPrice,
+          })
+        })
+    })
 })
 
 
